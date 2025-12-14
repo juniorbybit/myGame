@@ -6,7 +6,6 @@
 #include <vector>
 #include <conio.h>
 #include <SFML/Audio.hpp>
-#include <SFML/System/Vector3.hpp>
 
 
 #pragma comment (lib, "winmm.lib")
@@ -15,7 +14,7 @@ using namespace sf;
 int x_coord = 32;
 int y_coord = 15;
 vector <string> car = { "   ___", " 0=[_]=0", "   /T\\ ", "  |(o)| ", "[]=\\_/=[]", "  __V__", " '-----'" };
-string music[] = { "F1soundtrackext.ogg", "F1Mexican.ogg", "F1Theme.ogg" };//wide string
+string music[] = { "C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\F1soundtrackext.ogg", "C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\F1Mexican.ogg", "C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\F1Theme.ogg" };
 vector <string> START = {
 	" _____ _____ _____ _____ _____",
 	"|   __|_   _|  _  | __  |_   _|",
@@ -64,10 +63,6 @@ BOOL cpos(int x, int y) {
 bool isVKpressed(int virtkey) {
 	return GetAsyncKeyState(virtkey) & 0x8000;
 }
-
-//MUSIC
-Music song_m;
-
 
 /*0 - black
 1 - blue
@@ -405,8 +400,14 @@ void countdown(int x, int y) {
 
 //GAME
 void game(int color) {
+	int a;
+	SoundBuffer race;
+	if(!race.loadFromFile("C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\race-start.ogg")) cout << "Error with countdown";
+	Sound c_down(race);
+	c_down.setVolume(60);
 	int moveX = 0, speed = 10;
 	int x = 33, y = 9;
+	c_down.play();
 	countdown(x, y);
 	while (true) {
 		Sleep(speed);
@@ -422,6 +423,7 @@ void game(int color) {
 			++speed;
 		else if (isVKpressed(VK_ESCAPE))
 			break;
+		
 		draw_car(x_coord + moveX, y_coord, color);
 
 	}
@@ -430,8 +432,15 @@ void game(int color) {
 //MAIN
 int main()
 {
+	CONSOLE_CURSOR_INFO c;
+	c.dwSize = 1;
+	c.bVisible = false;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &c);
+	Music song_m;
+	
 	int answer, color, n = 0, song; string nickname; char a;
-	song_m.openFromFile(music[n]);
+
+	if(!song_m.openFromFile(music[n])) cout << "Error with the music";
 	song_m.play();
 
 
@@ -471,7 +480,7 @@ int main()
 				n = choose_music();
 				if (n < 3) {
 					song = n;
-					song_m.openFromFile(music[n]);
+					if(!song_m.openFromFile(music[n])) cout << "Error with music";
 					song_m.play();
 				}
 			} while (n != 3);
