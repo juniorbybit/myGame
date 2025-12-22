@@ -11,9 +11,17 @@
 #pragma comment (lib, "winmm.lib")
 using namespace std;
 using namespace sf;
-int x_coord = 32;
-int y_coord = 15;
-vector <string> car = { "   ___", " 0=[_]=0", "   /T\\ ", "  |(o)| ", "[]=\\_/=[]", "  __V__", " '-----'" };
+int width = 42;
+int height = 27;
+int x_coord = width-6;
+int y_coord = height-7;
+vector <string> car = { "   ___", 
+					    " 0=[_]=0",
+					    "   /T\\ ", 
+					    "  |(o)| ",
+					   "[]=\\_/=[]", 
+						"  __V__", 
+						" '-----'" };
 string music[] = { "C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\F1soundtrackext.ogg", "C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\F1Mexican.ogg", "C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\F1Theme.ogg" };
 vector <string> START = {
 	" _____ _____ _____ _____ _____",
@@ -51,6 +59,249 @@ vector <string> GO = {
 	"|  |  |  |  |",
 	"|_____|_____|",
 };
+
+vector <string> circuit = {
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |*****************",
+"  |                             |****************************",
+"  \\                             \\\\**************************************",
+"   \\                             \\\\*********************************************",
+"    \\                             \\\\********************************************",
+"     \\                             \\\\********************************************",
+"      \\                             \\\\__________________________*****************",
+"       \\                                                        \\*****************",
+"        \\                                                        \\****************",
+"         \\                                                        \\***************",
+"          \\                                                        \\**************",
+"           \\                                                        \\*************",
+"            \\                                                        \\************",
+"             \\                                                        \\***********",
+"              \\                                                        \\**********",
+"               \\                                                        \\*********",
+"                \\____________________________                            \\********",
+"                                  **********\\\\                            \\******",
+"                                     ********\\\\                            \\*****",
+"                                      ********\\\\                            \\****",
+"                                           ****\\\\                            \\***",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             | ",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                                |                             |",
+"                                               /                             /",
+"                                              /                             /",
+"                                             /                             /",
+"                                            /                             /",
+"                                           /                             /",
+"                                          /                             /",
+"                                         /                             /",
+"                                        /                             /",
+"                                       /                             /",
+"                                      /                             /",
+"                                     /                             /",
+"                                    |                              |",
+"                                    |                              |",
+"                                    |                              |",
+"                                    |                              |",
+"                                    |                              ||",
+"                                    |                              ||",
+"                                    |                              ||",
+"                                    |                              ||",
+"                                    |                              ||",
+"                                    |                              ||",
+"                                    |                              ||",
+"                                   /                               //",
+"                                  /                               //",
+"                                 /                               //",
+"                                /                               //",
+"                               /                               //",
+"                              /                               /",
+"                             /                               /",
+"                            /                               /",
+"                           /                               /",
+"                          /                               /",
+"                         /                               /",
+"              __________/                               /",
+"             /                                         /",
+"            /                                         /",
+"           /                                         /",
+"          /                                         /",
+"         /                                         /",
+"        /                                         /",
+"       /                                         /",
+"      /                                         /",
+"     /                            _____________/",
+"    /                           //",
+"   /                           //",
+"  /                           //",
+"  |                           ||",
+"  |                           ||",
+"  |                           ||",
+"  |                           ||",
+"  |                           ||",
+"  |                           ||",
+"  |                           ||***************",
+"  |                           ||*********************",
+"  |                           ||_________****************",
+"  |                                      \\__***************",
+"  |                                         \\_******************",
+"  |                                           \\___***************",
+"  |                                               \\_*************",
+"  \\_                                                \\___********",
+"    \\_                                                  \\_******",
+"      \\_                                                  \\___**",
+"        \\_                                                    |",
+"          \\_                                                  |",
+"            \\_                                                |",
+"              \\__________________                             |",
+"                                ||                            |",
+"                                ||                            |",
+"                                ||                            |",
+"                                ||                            |",
+"                                 |                            |    ",
+"                                 |                            |",
+"                                 |                            |",
+"                                 |                            |",
+"                                 |                            |    ",
+"                                 |                            |",
+"                                 |                            |",
+"                                 |                            |",
+"                                 |                            |    ",
+"                                 |                            |",
+"                                 |                            |",
+"                                _|                            |",
+"                              _/                             _|",
+"                            _/                             _/***",
+"                          _/                             _/*****",
+"                        _/                             _/*********",
+"                      _/                            _//**********",
+"                    _/                           _//***********",
+"                  _/                           _//************",
+"                 /                           _//************",
+"                /                           //*************",
+"               /                           //************",
+"              /                           //***********",
+"             |                            ||********",
+"             |                            ||******",
+"             |                            ||*****",
+"             |                            ||***",
+"             |                            ||**",
+"       ******|                            ||",
+"        ******\\                            \\",
+"         ******\\                            \\",
+"          ******\\                            \\",
+"           ******\\_                           \\_",
+"            *******\\_                           \\_",
+"               ******\\_                           \\_",
+"                   ****\\                            \\_",
+"                        \\                             \\_",
+"                         \\                              |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |",
+"                          |     _________               |",
+"                          |    |         |              |",
+"                          |    |         |              |",
+"                          |                             |",
+"                          |            _________        |",
+"                          |           |         |       |",
+"                          |           |         |       |",
+"                          |                             |",
+"                          |                             |",
+"                          |                             |"
+};
+
+bool isWallChar(char c) {
+	return c == '|' || c == '/' || c == '\\' || c == '_';
+}
+
+
 
 
 BOOL cpos(int x, int y) {
@@ -94,7 +345,7 @@ void border_no_color() {
 }
 
 
-//Change color(works)
+//Change color
 void c_c(int color) {
 	HANDLE hcolor;
 	hcolor = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -104,29 +355,30 @@ void c_c(int color) {
 //FIELD BORDERS
 void borders() {
 	border_color();
-	for (int i = 0; i < 38; i++) {
+	for (int i = 0; i < width; i++) {
 		cout << "  ";
 	}
 	cout << endl;
-	for (int r = 0; r < 22; r++) {
+	for (int r = 0; r < height; r++) {
 		border_color();
 		cout << "  ";
 		border_no_color();
-		for (int j = 0; j < 36; j++) {
+		for (int j = 0; j < (width - 2); j++) {
 			cout << "  ";
 		}
 		border_color();
 		cout << "  " << endl;
 	}
 	border_color();
-	for (int i = 0; i < 38; i++) {
+	for (int i = 0; i < width; i++) {
 		cout << "  ";
 	}
 	border_no_color();
+	c_c(7);
 }
 
 
-//NAME (works)
+//NAME 
 void name() {
 	c_c(7);
 	cout << "&&&&&&&&  &&&&&&&&  &&&&&&&&  &&&&&&&&  &&&&&&&&    ";
@@ -161,7 +413,7 @@ void name() {
 }
 
 
-//MUSIC (works)
+//MUSIC 
 int choose_music() {
 	int answer = 0, e, track;
 	cout << "Soundtracks: " << endl;
@@ -199,7 +451,7 @@ int choose_music() {
 	return track;
 }
 
-//MENU (works)
+//MENU 
 int menu()
 {
 	int answer, e/*for error*/, ans;
@@ -240,7 +492,7 @@ int menu()
 
 
 //SKIN
-//Color (works)
+//Color 
 int choose_color()
 {
 	char color; int c_n, e/*in case error*/;
@@ -297,7 +549,7 @@ int choose_color()
 	return c_n;
 }
 
-//Nickname (works)
+//Nickname 
 string nick()
 {
 	string name;
@@ -308,7 +560,7 @@ string nick()
 }
 
 
-//PREVIEW (works)
+//PREVIEW 
 //CAR
 void print_car(int color) {
 	c_c(color);
@@ -343,7 +595,7 @@ char preview(int color, string nickname)
 	return a;
 }
 
-//Start(works)
+//Start
 void start() {
 	c_c(2);
 	for (int i = 0; i < START.size(); i++) {
@@ -352,20 +604,16 @@ void start() {
 	c_c(7);
 }
 
-//Finish(works)
-void finish() {
-	c_c(4);
-	for (int i = 0; i < FINISH.size(); i++) {
-		cout << FINISH[i] << endl;
-	}
-	c_c(7);
-}
 
 void countdown(int x, int y) {
 	int speed = 1000;
 	borders();
 	c_c(4);
-	PlaySound(TEXT("race-start.wav"), NULL, SND_FILENAME | SND_ASYNC);
+	SoundBuffer race;
+	if (!race.loadFromFile("C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\race-start.ogg")) cout << "Error with countdown";
+	Sound c_down(race);
+	c_down.setVolume(60);
+	c_down.play();
 	for (int i = 0; i < three.size(); i++) {
 		cpos(x, y + i);
 		cout << three[i] << endl;
@@ -401,33 +649,48 @@ void countdown(int x, int y) {
 //GAME
 void game(int color) {
 	int a;
-	SoundBuffer race;
-	if(!race.loadFromFile("C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\race-start.ogg")) cout << "Error with countdown";
-	Sound c_down(race);
-	c_down.setVolume(60);
+	
 	int moveX = 0, speed = 10;
-	int x = 33, y = 9;
-	c_down.play();
+	int x = width-4 , y = height/2-2;
+	string row;
+	int tick = 26, end = 0, i=0;
 	countdown(x, y);
-	while (true) {
+	while (tick <= circuit.size()-26) {
 		Sleep(speed);
 		system("cls");
 		borders();
-		if (isVKpressed(VK_LEFT))
+		cpos(6,1);
+		for (int j = tick; j >= end; j--) {
+			if (j >= 210) {
+				for (i; i < FINISH.size(); i++) {
+					cout << FINISH[FINISH.size() - i]<<endl;
+				}
+			}
+			cout << circuit[230 - j] << endl;
+		}
+
+		if (isVKpressed(0x41))
 			--moveX;
-		else if (isVKpressed(VK_RIGHT))
+		else if (isVKpressed(0x44))
 			++moveX;
-		else if (isVKpressed(VK_UP))
+		else if (isVKpressed(0x57))
 			--speed;
-		else if (isVKpressed(VK_DOWN))
+		else if (isVKpressed(0x53))
 			++speed;
 		else if (isVKpressed(VK_ESCAPE))
 			break;
+		x = x_coord + moveX;
+		if (x< 2) x = 2;
+		if (x > (width*2 - 11)) x = width*2 - 11;
+		if (speed < 1) speed = 1;
 		
-		draw_car(x_coord + moveX, y_coord, color);
-
+		
+		draw_car(x, y_coord, color);
+		tick++;
+		end++;
 	}
 }
+
 
 //MAIN
 int main()
@@ -443,8 +706,8 @@ int main()
 	if(!song_m.openFromFile(music[n])) cout << "Error with the music";
 	song_m.play();
 
-
 	do {
+		
 		name();
 		answer = menu();
 		switch (answer) {
