@@ -283,6 +283,10 @@ vector <string> circuit = {
 "                          |                             |",
 "                          |                             |",
 "                          |                             |",
+"                          |_____ _____ _____ _____ _____|",
+"                          |   __|_   _|  _  | __  |_   _|",
+"                          |__   | | | |     |    -| | | |",
+"                          |_____| |_| |__|__|__|__| |_| |",
 "                          |                             |",
 "                          |                             |",
 "                          |     _________               |",
@@ -595,15 +599,13 @@ char preview(int color, string nickname)
 	return a;
 }
 
-//Start
-void start() {
+void finish() {
 	c_c(2);
-	for (int i = 0; i < START.size(); i++) {
-		cout << START[i] << endl;
+	for (int i = 0; i < FINISH.size(); i++) {
+		cout << FINISH[i] << endl;
 	}
 	c_c(7);
 }
-
 
 void countdown(int x, int y) {
 	int speed = 1000;
@@ -649,26 +651,28 @@ void countdown(int x, int y) {
 //GAME
 void game(int color) {
 	int a;
-	
+	Music engine;
+	if (!engine.openFromFile("C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\f1_engine_sound.ogg")) cout << "Error with the music";
+	engine.setVolume(50);
 	int moveX = 0, speed = 10;
 	int x = width-4 , y = height/2-2;
-	string row;
 	int tick = 26, end = 0, i=0;
 	countdown(x, y);
-	while (tick <= circuit.size()-26) {
+	engine.play();
+	while (true) {
 		Sleep(speed);
 		system("cls");
 		borders();
-		cpos(6,1);
+		cpos(2,1);
 		for (int j = tick; j >= end; j--) {
-			if (j >= 210) {
-				for (i; i < FINISH.size(); i++) {
-					cout << FINISH[FINISH.size() - i]<<endl;
-				}
-			}
-			cout << circuit[230 - j] << endl;
+			int idx = 230 - j; 
+			if (idx < 0) idx = 0;
+			//cout << circuit[230 - j] << endl;
+			if (idx >= circuit.size()) {
+				idx = circuit.size() - 1;finish();}
+			cout << circuit[idx] << endl;
 		}
-
+		
 		if (isVKpressed(0x41))
 			--moveX;
 		else if (isVKpressed(0x44))
@@ -677,7 +681,7 @@ void game(int color) {
 			--speed;
 		else if (isVKpressed(0x53))
 			++speed;
-		else if (isVKpressed(VK_ESCAPE))
+		if (isVKpressed(VK_ESCAPE))
 			break;
 		x = x_coord + moveX;
 		if (x< 2) x = 2;
@@ -689,6 +693,8 @@ void game(int color) {
 		tick++;
 		end++;
 	}
+	engine.pause();
+	//Congrats and so on
 }
 
 
@@ -723,12 +729,8 @@ int main()
 			system("cls");
 			game(color);
 			system("cls");
-			cout << "Play again? " << endl;
-			c_c(2);
-			cout << "[ y ] Yes" << endl;
-			c_c(4);
-			cout << "[ n ] No" << endl;
-			c_c(7);
+			a = _getch();
+			if (a == 27) continue;
 			a = _getch();
 			if (a == 'y') {
 				answer = 1;
