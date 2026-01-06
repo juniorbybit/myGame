@@ -59,6 +59,13 @@ vector <string> GO = {
 	"|  |  |  |  |",
 	"|_____|_____|",
 };
+vector <string> congr = {
+" _____                     _",
+"|     |___ ___ ___ ___ ___| |_ ___",
+"|   --| . |   | . | _ | .'|  _|_ -|",
+"|_____|___|_|_| _ |_| |__,|_| |___|",
+"              |___|                "
+};
 
 vector <string> circuit = {
 "  |                             |",
@@ -70,6 +77,34 @@ vector <string> circuit = {
 "  |                             |",
 "  |                             |",
 "  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |                             |",
+"  |=============================|",
+" _____ _____ _______ _____ _____ _____ ",
+"|   __|     |    |  |     |   __|  |  |",
+"|   __|-   -|  | |  |-   -|__   |     |",
+"|__|  |_____|__|____|_____|_____|__|__|",
 "  |                             |",
 "  |                             |",
 "  |                             |",
@@ -273,16 +308,6 @@ vector <string> circuit = {
 "                          |                             |",
 "                          |                             |",
 "                          |                             |",
-"                          |                             |",
-"                          |                             |",
-"                          |                             |",
-"                          |                             |",
-"                          |                             |",
-"                          |                             |",
-"                          |                             |",
-"                          |                             |",
-"                          |                             |",
-"                          |                             |",
 "                          |_____ _____ _____ _____ _____|",
 "                          |   __|_   _|  _  | __  |_   _|",
 "                          |__   | | | |     |    -| | | |",
@@ -300,13 +325,6 @@ vector <string> circuit = {
 "                          |                             |",
 "                          |                             |"
 };
-
-bool isWallChar(char c) {
-	return c == '|' || c == '/' || c == '\\' || c == '_';
-}
-
-
-
 
 BOOL cpos(int x, int y) {
 	COORD c;
@@ -347,6 +365,7 @@ void border_no_color() {
 	b_c = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(b_c, 0);
 }
+
 
 
 //Change color
@@ -648,29 +667,49 @@ void countdown(int x, int y) {
 	system("cls");
 }
 
+void congratulations(int x, int y) {
+	c_c(12);
+	for (int i = 0; i < congr.size(); i++) {
+		cpos(x, y + i);
+		cout << congr[i];
+	}
+	c_c(7);
+};
+
 //GAME
 void game(int color) {
-	int a;
+	int a = 0; 
+
+
 	Music engine;
 	if (!engine.openFromFile("C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\f1_engine_sound.ogg")) cout << "Error with the music";
 	engine.setVolume(50);
+
 	int moveX = 0, speed = 10;
 	int x = width-4 , y = height/2-2;
 	int tick = 26, end = 0, i=0;
+
 	countdown(x, y);
 	engine.play();
-	while (true) {
+
+	while (a != 3) {
 		Sleep(speed);
 		system("cls");
+
 		borders();
 		cpos(2,1);
-		for (int j = tick; j >= end; j--) {
-			int idx = 230 - j; 
-			if (idx < 0) idx = 0;
-			//cout << circuit[230 - j] << endl;
-			if (idx >= circuit.size()) {
-				idx = circuit.size() - 1;finish();}
+		for (int j = tick; j >= end; j--) {//end is the lowest line -> track goes forward, last line rises
+			int idx = 250 - j; 
+			//if (idx < 0) idx = 0;
+			if ((idx >= 32) && (idx < 33)) c_c(4);
+			/*if (idx >= circuit.size()) {
+				idx = circuit.size() - 1;}*/
+			if (idx < 2) { // last 3 lines are finish 
+				//cout << "you crossed the finish line!" << endl;
+				a = 3; // exit the game loop
+			}
 			cout << circuit[idx] << endl;
+			
 		}
 		
 		if (isVKpressed(0x41))
@@ -678,15 +717,15 @@ void game(int color) {
 		else if (isVKpressed(0x44))
 			++moveX;
 		else if (isVKpressed(0x57))
-			--speed;
+			speed-= 5;
 		else if (isVKpressed(0x53))
-			++speed;
+			speed += 5;
 		if (isVKpressed(VK_ESCAPE))
 			break;
 		x = x_coord + moveX;
 		if (x< 2) x = 2;
 		if (x > (width*2 - 11)) x = width*2 - 11;
-		if (speed < 1) speed = 1;
+		if (speed < 5) speed = 5;
 		
 		
 		draw_car(x, y_coord, color);
@@ -694,6 +733,15 @@ void game(int color) {
 		end++;
 	}
 	engine.pause();
+	system("cls");
+	borders();
+	cpos(x_coord, y_coord);
+	draw_car(x_coord, y_coord, color);
+	congratulations(14, 7);
+	cpos(17, y);
+	c_c(7);
+	cout << "on finishing test-lap"<<endl;
+	Sleep(2500);
 	//Congrats and so on
 }
 
@@ -728,9 +776,16 @@ int main()
 			}
 			system("cls");
 			game(color);
-			system("cls");
-			a = _getch();
-			if (a == 27) continue;
+			while (_kbhit()) _getch();//clear the buffer of pressed keys
+			cpos(14, height/2 -1);
+			cout << "Do you want to continue?" << endl;
+			c_c(2);
+			cpos(14, height/2);
+			cout << "[ y ] yes" << endl;
+			c_c(4);
+			cpos(14, height/2+1);
+			cout << "[ n ] no";
+			c_c(7);
 			a = _getch();
 			if (a == 'y') {
 				answer = 1;
