@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <Windows.h>
 #include <stdlib.h>
 #include <string>
@@ -6,6 +7,9 @@
 #include <vector>
 #include <conio.h>
 #include <SFML/Audio.hpp>
+#include <ctime>
+#include <chrono>
+#include <thread>
 
 
 #pragma comment (lib, "winmm.lib")
@@ -13,16 +17,16 @@ using namespace std;
 using namespace sf;
 int width = 42;
 int height = 27;
-int x_coord = width-6;
-int y_coord = height-7;
-vector <string> car = { "   ___", 
-					    " 0=[_]=0",
-					    "   /T\\ ", 
-					    "  |(o)| ",
-					   "[]=\\_/=[]", 
-						"  __V__", 
+int x_coord = width - 6;
+int y_coord = height - 7;
+vector <string> car = { "   ___",
+						" 0=[_]=0",
+						"   /T\\ ",
+						"  |(o)| ",
+					   "[]=\\_/=[]",
+						"  __V__",
 						" '-----'" };
-string music[] = { "C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\F1soundtrackext.ogg", "C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\F1Mexican.ogg", "C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\F1Theme.ogg" };
+string music[] = { "assets\\F1soundtrackext.ogg", "assets\\F1Mexican.ogg", "assets\\F1Theme.ogg" };
 vector <string> START = {
 	" _____ _____ _____ _____ _____",
 	"|   __|_   _|  _  | __  |_   _|",
@@ -631,7 +635,7 @@ void countdown(int x, int y) {
 	borders();
 	c_c(4);
 	SoundBuffer race;
-	if (!race.loadFromFile("C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\race-start.ogg")) cout << "Error with countdown";
+	if (!race.loadFromFile("assets\\race-start.ogg")) cout << "Error with countdown";
 	Sound c_down(race);
 	c_down.setVolume(60);
 	c_down.play();
@@ -677,17 +681,17 @@ void congratulations(int x, int y) {
 };
 
 //GAME
-void game(int color) {
-	int a = 0; 
+int game(int color) {
+	int a = 0, timer = 0;
 
 
 	Music engine;
-	if (!engine.openFromFile("C:\\Users\\U\\Desktop\\final project\\myGame\\x64\\Debug\\f1_engine_sound.ogg")) cout << "Error with the music";
+	if (!engine.openFromFile("assets\\f1_engine_sound.ogg")) cout << "Error with the music";
 	engine.setVolume(50);
 
 	int moveX = 0, speed = 10;
-	int x = width-4 , y = height/2-2;
-	int tick = 26, end = 0, i=0;
+	int x = width - 4, y = height / 2 - 2;
+	int tick = 26, end = 0, i = 0;
 
 	countdown(x, y);
 	engine.play();
@@ -697,9 +701,9 @@ void game(int color) {
 		system("cls");
 
 		borders();
-		cpos(2,1);
+		cpos(2, 1);
 		for (int j = tick; j >= end; j--) {//end is the lowest line -> track goes forward, last line rises
-			int idx = 250 - j; 
+			int idx = 250 - j;
 			//if (idx < 0) idx = 0;
 			if ((idx >= 32) && (idx < 33)) c_c(4);
 			/*if (idx >= circuit.size()) {
@@ -709,29 +713,31 @@ void game(int color) {
 				a = 3; // exit the game loop
 			}
 			cout << circuit[idx] << endl;
-			
+
 		}
-		
+
 		if (isVKpressed(0x41))
 			--moveX;
 		else if (isVKpressed(0x44))
 			++moveX;
 		else if (isVKpressed(0x57))
-			speed-= 5;
+			speed -= 5;
 		else if (isVKpressed(0x53))
 			speed += 5;
 		if (isVKpressed(VK_ESCAPE))
 			break;
 		x = x_coord + moveX;
-		if (x< 2) x = 2;
-		if (x > (width*2 - 11)) x = width*2 - 11;
+		if (x < 2) x = 2;
+		if (x > (width * 2 - 11)) x = width * 2 - 11;
 		if (speed < 5) speed = 5;
-		
-		
+
+
 		draw_car(x, y_coord, color);
 		tick++;
 		end++;
+		timer++;
 	}
+
 	engine.pause();
 	system("cls");
 	borders();
@@ -740,28 +746,34 @@ void game(int color) {
 	congratulations(14, 7);
 	cpos(17, y);
 	c_c(7);
-	cout << "on finishing test-lap"<<endl;
+	cout << "on finishing test-lap" << endl;
 	Sleep(2500);
 	//Congrats and so on
+	return timer;
 }
+
 
 
 //MAIN
 int main()
 {
+	fstream d;
+	char path[100] = "records.txt";
+	d.open(path, ios::out | ios::app);
+	int t;
 	CONSOLE_CURSOR_INFO c;
 	c.dwSize = 1;
 	c.bVisible = false;
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &c);
 	Music song_m;
-	
+
 	int answer, color, n = 0, song; string nickname; char a;
 
-	if(!song_m.openFromFile(music[n])) cout << "Error with the music";
+	if (!song_m.openFromFile(music[n])) cout << "error with the music";
 	song_m.play();
 
 	do {
-		
+
 		name();
 		answer = menu();
 		switch (answer) {
@@ -775,15 +787,18 @@ int main()
 				a = preview(color, nickname);
 			}
 			system("cls");
-			game(color);
+			t = game(color);
+			time_t timestamp;
+			time(&timestamp);
+			d << ctime(&timestamp) << "Player " << nickname << " finished in " << t << " seconds" << endl;
 			while (_kbhit()) _getch();//clear the buffer of pressed keys
-			cpos(14, height/2 -1);
-			cout << "Do you want to continue?" << endl;
+			cpos(14, height / 2 - 1);
+			cout << "do you want to continue?" << endl;
 			c_c(2);
-			cpos(14, height/2);
+			cpos(14, height / 2);
 			cout << "[ y ] yes" << endl;
 			c_c(4);
-			cpos(14, height/2+1);
+			cpos(14, height / 2 + 1);
 			cout << "[ n ] no";
 			c_c(7);
 			a = _getch();
@@ -800,7 +815,7 @@ int main()
 				n = choose_music();
 				if (n < 3) {
 					song = n;
-					if(!song_m.openFromFile(music[n])) cout << "Error with music";
+					if (!song_m.openFromFile(music[n])) cout << "error with music";
 					song_m.play();
 				}
 			} while (n != 3);
@@ -810,7 +825,8 @@ int main()
 		}
 	} while (answer != 3);
 	system("cls");
-	cout << "Bye!";
+	d.close();
+	cout << "bye!";
 	return 0;
 }
 
