@@ -363,3 +363,6 @@ MigrationBackup/
 FodyWeavers.xsd
 
 **/assets/*.ogg
+
+# Local race results
+records.txt
